@@ -25,4 +25,9 @@ public class Employee {
     public int getUniqueIdentifier() {
         return uniqueIdentifier;
     }
+    public void update(String name,int salary,int age){
+        this.name=name;
+        this.salary=salary;
+        this.age=age;
+    }
 }
