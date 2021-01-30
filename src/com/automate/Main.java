@@ -12,43 +12,9 @@ public class Main {
     public static void main(String[] args) {
         while (true) {
             int userChoice =getAskUserChoice();
-            ProcessUserChoice(userChoice);
-            createEmployee();
+            processUserChoice(userChoice);
 
-        }
-    }
 
-    private static void ProcessUserChoice(int userChoice) {
-        switch (userChoice){
-            case 1:
-                    final Employee employee=createEmployee();
-                    employees.add(employee);
-                    break;
-            case 2:
-                //todo update employee
-                break;
-            case 3:
-                System.out.println("Enter employee id to delete!");
-                int employeeId=sc.nextInt();
-                deleteEmployeeById(employeeId);
-                break;
-            case 4:
-                listEmployee();
-                break;
-        }
-    }
-
-    private static void listEmployee() {
-        for (Employee e:employees)
-            e.displayInrotmation();
-    }
-    private static void deleteEmployeeById(int employeeId){
-        for (int i=0;i<employees.size();i++){
-           if (employees.get(i).getUniqueIdentifier()==employeeId){
-               employees.remove(i);
-               System.out.println("Employee with id: "+employeeId+"is deleted");
-               break;
-           }
         }
     }
 
@@ -61,9 +27,39 @@ public class Main {
         return sc.nextInt();
     }
 
+    private static void processUserChoice(int userChoice) {
+        switch (userChoice){
+            case 1:
+                    final Employee employee = createEmployee();
+                    employees.add(employee);
+                    employee.displayInrotmation();
+                    break;
+            case 2:
+                System.out.println("Which employee need to be updated");
+                updateEmployee(sc.nextInt());
+                break;
+            case 3:
+                System.out.println("Enter employee id to delete!");
+                int employeeId=sc.nextInt();
+                deleteEmployeeById(employeeId);
+                break;
+            case 4:
+                listEmployee();
+                break;
+        }
+    }
 
-    private static Employee createEmployeeObject(String name, int salary,int age){
-        return new Employee(name,salary, identifier++,age);
+    private static void updateEmployee(int employeeId) {
+        System.out.println("Enter the updated information with employee id");
+        final String name = takeName();
+        final int salary = takeSalary();
+        final int age = takeAge();
+        for (int i=0;i<employees.size();i++){
+            if (employees.get(i).getUniqueIdentifier()==employeeId){
+                employees.get(i).update(name,salary,age);
+                break;
+            }
+        }
     }
 
     private static Employee createEmployee(){
@@ -72,10 +68,27 @@ public class Main {
         final int salary = takeSalary();
         final int age = takeAge();
         Employee employee = createEmployeeObject(name, salary, age);
-        employee.displayInrotmation();
         return employee;
     }
 
+    private static Employee createEmployeeObject(String name, int salary,int age){
+        return new Employee(name,salary, identifier++,age);
+    }
+
+   static void deleteEmployeeById(int employeeId){
+        for (int i=0;i<employees.size();i++){
+           if (employees.get(i).getUniqueIdentifier()==employeeId){
+               employees.remove(i);
+               System.out.println("Employee with id: "+employeeId+"is deleted");
+               break;
+           }
+        }
+    }
+
+    private static void listEmployee() {
+        for (Employee e:employees)
+            e.displayInrotmation();
+    }
 
     private static String takeName(){
         System.out.println("Name:");
